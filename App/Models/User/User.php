@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\User;
 
 class User  {
     public $table = "users";
     private $id;
-    private $name;
     private $email;
     protected $password;
 }

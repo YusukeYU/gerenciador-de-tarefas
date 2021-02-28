@@ -1,15 +1,11 @@
 <?php
 use Src\Route as Route;
-use Src\View;
 
+Route::get(['set' => '/', 'as' => 'users.login'], 'UserController@index');
 
-Route::get(['set' => '/', 'as' => 'users.login'], function(){
-    echo View::render('index.html');
-});
+Route::get(['set' => '/dashboard', 'as' => 'users.login'], 'UserController@dashboard');
 
-Route::post(['set' => '/', 'as' => 'users.create'], 'UserController@createNewUser');
+Route::post(['set' => '/', 'as' => 'users.create'], 'UserController@addUser');
 
-Route::get(['set' => '/teste', 'as' => 'users.login2'], function(){
-      echo View::render('index.html','Users');
-});
+Route::get(['set' => '/logout', 'as' => 'users.logout'], 'UserController@logout');
 

@@ -69,6 +69,29 @@ class Request
     {
         return $this->data;
     }
+    /**
+     * @Description : Função filtrar quais campos vindos da requisição você quer manipular,
+     * percorremos o array completo e filtramos somente aqueles que recebemos como argumento.
+     * @param array 
+     * @author Gustavo Pontes. 
+     */
+    public function only(array $_fields)
+    {
+        $data = $this->data;
+        foreach($data as $field =>$value){
+            $finded = 0;
+            foreach($_fields as $_field){
+
+                if($field == $_field){
+                  $finded = 1;
+                }
+            }
+            if($finded != 1){
+                unset($data[$field]);
+            }
+        }
+        return $data;
+    }
  
     public function __isset($key)
     {
