@@ -1,0 +1,20 @@
+{
+    "name": "gusta/backend",
+    "description": "Criação de sistema base php",
+    "authors": [
+    {
+        "name": "YusukeYU",
+        "email": "gustavooliveirapontes@gmail.com"
+    }
+    ],
+        "require": {},
+        "autoload" : {
+            "psr-4": {
+            "App\\" : "App/",
+            "Src\\" : "Src/"
+        }
+    },
+    "files" : [
+        "Src/helpers/helper_routes.php"
+    ]
+}
