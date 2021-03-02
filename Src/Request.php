@@ -15,8 +15,8 @@ class Request
  
     public function __construct()
     {
-        $this->base = $_SERVER['REQUEST_URI'];
-        $this->uri  = $_REQUEST['uri'] ?? '/';
+        $this->base = '/';
+        $this->uri  = $_SERVER['REQUEST_URI'];
         $this->method = strtolower($_SERVER['REQUEST_METHOD']);
         $this->protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
         $this->setData();

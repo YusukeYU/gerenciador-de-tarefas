@@ -32,7 +32,7 @@ class UserController extends Controller
     
     public function dashboard()
     {
-        echo $this->auth->isLogged()? View::render('index.php','Tasks'): header("Location: /");
+        echo $this->auth->isLogged()? View::render('dashboard.php','Tasks'): header("Location: /");
     }
     public function logout()
     {

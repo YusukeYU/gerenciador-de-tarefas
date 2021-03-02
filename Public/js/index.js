@@ -11,27 +11,29 @@ signInButton.addEventListener('click', () => {
 	container.classList.remove("right-panel-active");
 });
 
-$('#cadastrar').click(function () {
+
+function signUp() {
+	$('.my-loader').css('display','flex');
 	var myForm = document.getElementById('form-cadastro');
 	formData = new FormData(myForm);
-    fetch(`/`, {
-        method: 'POST',
-        body: formData,
-    }).then(response => response.json())
-	.then(jsonBody => {
-		if(jsonBody.status == 'error'){
-			$('.span-message').html(jsonBody.message);
-			$('#h1-criar-conta').hide();
-			$('.message-error').show();
-		} else {
-			window.location.href = "/dashboard";
-			exit;
-		}
-	});
-	setTimeout(function(){ 
+	fetch(`/`, {
+		method: 'POST',
+		body: formData,
+	}).then(response => response.json())
+		.then(jsonBody => {
+			if (jsonBody.status == 'error') {
+				$('.span-message').html(jsonBody.message);
+				$('#h1-criar-conta').hide();
+				$('.message-error').show();
+				$('.my-loader').hide();
+			} else {
+				window.location.href = "/dashboard";
+			}
+		});
+	setTimeout(function () {
 		$('.message-error').hide("slow");
 		$('#h1-criar-conta').show("slow");
-	}, 3000);
-});
+	}, 2500);
+};
 
 

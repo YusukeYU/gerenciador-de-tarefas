@@ -273,6 +273,22 @@ footer a {
 	margin-bottom: .5rem;
 
 }
+.my-loader{
+left: 0;
+right: 0;
+top: 0;
+bottom: 0;
+position: fixed;
+display: none;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+text-align: center;
+width: 100%;
+background: rgba(255, 254, 254,0.8);
+z-index: 1050;
+border: none;
+}
 @media only screen and (max-width: 746px) {
 	.message-error span{
 		padding: 0;
