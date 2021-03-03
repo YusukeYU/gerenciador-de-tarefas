@@ -20,13 +20,34 @@
 <!--===============================================================================================-->
 </head>
 <body>
-	
+<nav style="background-color: #0d99eb!important;" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 dual-collapse2 order-1 order-md-0">
+        <ul class="navbar-nav ml-auto text-center">
+            <li style="margin-right: 2rem;" class="nav-item active">
+                <a class="nav-link" href="/dashboard">Home</a>
+            </li>
+        </ul>
+    </div>
+    <div class="mx-auto my-2 order-0 order-md-1 position-relative">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 dual-collapse2 order-2 order-md-2">
+        <ul class="navbar-nav mr-auto text-center">
+            <li class="nav-item">
+                <a style="color: white;" class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 	<div class="limiter">
-		<div class="container-table100">
+		<div style="background: #e1e5ee;" class="container-table100">
 			<div class="wrap-table100">
 					<div class="table">
 
-						<div class="row header">
+						<div style="background-color:#0d99eb;" class="row header">
 							<div class="cell">
 								Full Name
 							</div>

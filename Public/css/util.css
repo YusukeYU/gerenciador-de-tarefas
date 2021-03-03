@@ -2986,3 +2986,25 @@
 
 
 
+.navbar-light .navbar-brand{
+	color: #FFFFFF;
+}
+.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link{
+	color: #FFFFFF;
+}
+.navbar-light .navbar-nav .nav-link{
+	color: #FFFFFF;
+}
+ul li{
+	margin-top: 2px;
+	border-bottom: solid 2px transparent;
+}
+ul li:hover {
+	border-bottom: solid 2px #FFFFFF !important;
+  }
+ 
+  @media only screen and (max-width: 980px) {
+  ul li {
+	  margin-right: 0!important;
+  }
+}
