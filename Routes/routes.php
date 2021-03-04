@@ -10,3 +10,5 @@ Route::post(['set' => '/', 'as' => 'users.create'], 'UserController@addUser');
 
 Route::get(['set' => '/logout', 'as' => 'users.logout'], 'UserController@logout');
 
+Route::post(['set' => '/login', 'as' => 'users.loginPost'], 'UserController@login');
+

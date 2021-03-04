@@ -58,6 +58,28 @@ class UserController extends Controller
         }
         return $this->success("", [$data]);
     }
+
+    public function login(Request $request){
+
+        try{
+             $data = $request->only('email','senha');
+            if (in_array(null, $data)) {
+                throw new Exception("Necessário informar todos os campos!");
+            }
+
+             if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
+                throw new Exception("O formato de e-mail inválido!");
+            }
+            $this->_userRepository($data);
+
+        }
+        catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
+
+        return $this->success("", []);
+    }
+
     public function addUser(Request $request)
     {
         try {

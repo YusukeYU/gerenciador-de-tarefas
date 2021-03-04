@@ -12,8 +12,12 @@ class UserRepository extends BaseRepository
     { 
         UserRepository::$model = new User();
         parent::__construct();
-    }
+    }   
 
-    
+    public function login($data){
+    	  if(!$user = $this->model->findBy('email',$data['email'])){
+    	  	throw new Exception("Credenciais informadas inválidas.");
+    	  }
+    }
 
 }

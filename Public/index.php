@@ -38,7 +38,7 @@
             </form>
         </div>
         <div class="form-container sign-in-container">
-            <form action="">
+            <form  id="form-login" action="">
                 <h1>Tarefas</h1>
                 <div class="social-container">
                 </div>
@@ -49,7 +49,7 @@
                 <input type="email" placeholder="Email" />
                 <input type="password" placeholder="Senha" />
                 <a href="#">Esqueceu sua senha?</a>
-                <button class="mybtn">Entrar</button>
+                <button onclick="login()" class="mybtn">Entrar</button>
             </form>
         </div>
         <div class="overlay-container">

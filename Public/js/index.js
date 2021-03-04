@@ -36,4 +36,28 @@ function signUp() {
 	}, 2500);
 };
 
+function login() {
+	$('.my-loader').css('display','flex');
+	var myForm = document.getElementById('form-login');
+	formData = new FormData(myForm);
+	fetch(`/login`, {
+		method: 'POST',
+		body: formData,
+	}).then(response => response.json())
+		.then(jsonBody => {
+			if (jsonBody.status == 'error') {
+				$('.span-message').html(jsonBody.message);
+				$('#h1-criar-conta').hide();
+				$('.message-error').show();
+				$('.my-loader').hide();
+			} else {
+				window.location.href = "/dashboard";
+			}
+		});
+	setTimeout(function () {
+		$('.message-error').hide("slow");
+		$('#h1-criar-conta').show("slow");
+	}, 2500);
+};
+
 
