@@ -27,12 +27,12 @@ class UserController extends Controller
 
     public function index()
     {
-        echo View::render('index.php');
+        echo View::render('index.html');
     }
     
     public function dashboard()
     {
-        echo $this->auth->isLogged()? View::render('dashboard.php','Tasks'): header("Location: /");
+        echo $this->auth->isLogged()? View::render('dashboard.html','Tasks'): header("Location: /");
     }
     public function logout()
     {
@@ -62,7 +62,7 @@ class UserController extends Controller
     public function login(Request $request){
 
         try{
-             $data = $request->only('email','senha');
+             $data = $request->only(['email','password']);
             if (in_array(null, $data)) {
                 throw new Exception("Necessário informar todos os campos!");
             }
@@ -70,14 +70,16 @@ class UserController extends Controller
              if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
                 throw new Exception("O formato de e-mail inválido!");
             }
-            $this->_userRepository($data);
-
+            $user = $this->_userRepository->userLogin($data);
+            $people_user_id = $this->_peopleUserRepository->findBy('user_id',$user['id'],['people_id']);
+            $people = $this->_peopleRepository->find($people_user_id['people_id']);
+            $this->auth->setLogged($user,$people);
         }
         catch (Exception $e) {
             return $this->error($e->getMessage());
         }
 
-        return $this->success("", []);
+        return $this->success("Logado com sucesso!",[]);
     }
 
     public function addUser(Request $request)

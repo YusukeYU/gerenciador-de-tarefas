@@ -3,9 +3,9 @@
 namespace App\Infrastructure\Repositories;
 
 use App\Infrastructure\Connection;
+use App\Infrastructure\Interfaces\IBaseRepository;
 use Exception;
 use PDO;
-use App\Infrastructure\Interfaces\IBaseRepository;
 
 abstract class BaseRepository implements IBaseRepository
 {
@@ -41,15 +41,14 @@ abstract class BaseRepository implements IBaseRepository
             //ajustamos a string feita
             $query = substr($query, 0, -1) . ") VALUES (";
 
-            foreach ($data as $field => $value) {
-                $query = $query . "'" . $value . "',";
-            }
+        foreach ($data as $field => $value) {
+            $query = $query . "'" . $value . "',";
+        }
 
-
-            //ajustamos a string feita novamente
-            $query = substr($query, 0, -1) . ");";
-            $this->model = Connection::getInstance()->prepare($query);
-            return $this->model->execute();
+        //ajustamos a string feita novamente
+        $query = substr($query, 0, -1) . ");";
+        $this->model = Connection::getInstance()->prepare($query);
+        return $this->model->execute();
     }
 
     public function delete($id)
@@ -65,11 +64,11 @@ abstract class BaseRepository implements IBaseRepository
         }
     }
 
-    public function find($id , $colums = array('*'))
+    public function find($id, $colums = array('*'))
     {
         try {
             $this->__construct();
-            $query = "SELECT ". implode(",",$colums) . " FROM "  . $this->model->table . " WHERE id = " . $id;
+            $query = "SELECT " . implode(",", $colums) . " FROM " . $this->model->table . " WHERE id = " . $id;
             $this->model = Connection::getInstance()->prepare($query);
             $this->model->execute();
             return $this->model->fetch(PDO::FETCH_ASSOC);
@@ -82,10 +81,10 @@ abstract class BaseRepository implements IBaseRepository
     {
         try {
             $this->__construct();
-            $query = "SELECT " . implode(",",$colums) . " FROM " . $this->model->table . " WHERE " . $field . " LIKE '" . $value . "%'";
+            $query = "SELECT " . implode(",", $colums) . " FROM " . $this->model->table . " WHERE " . $field . " LIKE '" . $value . "%'";
             $this->model = Connection::getInstance()->prepare($query);
             $this->model->execute();
-            return $this->model->fetch(PDO::FETCH_ASSOC); 
+            return $this->model->fetch(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -94,10 +93,10 @@ abstract class BaseRepository implements IBaseRepository
     {
         try {
             $this->__construct();
-            $query = "SELECT " . implode(",",$colums) . " FROM " . $this->model->table . " WHERE " . $field . " = '" . $value . "'";
+            $query = "SELECT " . implode(",", $colums) . " FROM " . $this->model->table . " WHERE " . $field . " = '" . $value . "'";
             $this->model = Connection::getInstance()->prepare($query);
             $this->model->execute();
-            return $this->model->fetch(PDO::FETCH_ASSOC); 
+            return $this->model->fetch(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -122,5 +121,16 @@ abstract class BaseRepository implements IBaseRepository
         } catch (Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    public function userLogin($data){
+        
+        if(!$user = $this->findByExactly('email',$data['email'])){
+            throw new Exception("Credenciais informadas inválidas.");
+        }
+        if(!password_verify ($data['password'] , $user['password'])){
+            throw new Exception("Credenciais informadas inválidas.");
+        }
+        return $this->find($user['id']);
     }
 }

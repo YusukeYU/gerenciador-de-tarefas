@@ -8,6 +8,7 @@
     <title>Gerenciamento de Tarefas</title>
     <link rel="stylesheet" href="../Public/css/index.css">
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <link rel= "shortcut icon" href="../Public/Assets/index.ico"  type= "image/x-icon">
 </head>
 
 <body>
@@ -34,11 +35,11 @@
                 <input maxlength="80" name="email" type="text" placeholder="Email" />
                 <label class="label-form">Senha</label>
                 <input name="password" type="password" placeholder="Senha" />
-                <button onclick="signUp()" type="button" id="cadastrar" class="mybtn">Cadastrar-se</button>
+                <button type="button" id="cadastrar" class="mybtn">Cadastrar-se</button>
             </form>
         </div>
         <div class="form-container sign-in-container">
-            <form  id="form-login" action="">
+            <form  id="form-login" action="#">
                 <h1>Tarefas</h1>
                 <div class="social-container">
                 </div>
@@ -46,10 +47,10 @@
                 <div style="display: none;margin-top: 1.3rem;" class="message-error">
                     <span class="span-message">Preencha todos os campos!</span>
                 </div>
-                <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Senha" />
+                <input name="email" type="email" placeholder="Email" />
+                <input name="password" type="password" placeholder="Senha" />
                 <a href="#">Esqueceu sua senha?</a>
-                <button onclick="login()" class="mybtn">Entrar</button>
+                <button id = "btn-login" class="mybtn">Entrar</button>
             </form>
         </div>
         <div class="overlay-container">

@@ -1,63 +1,60 @@
-const signUpButton = document.getElementById('signUp');
-const signInButton = document.getElementById('signIn');
-const container = document.getElementById('container');
-const cadastrar = document.getElementById('cadastrar');
-
-signUpButton.addEventListener('click', () => {
-	container.classList.add("right-panel-active");
-});
-
-signInButton.addEventListener('click', () => {
-	container.classList.remove("right-panel-active");
-});
+//Animation signIn and SignUp
+$("#signUp").on('click', function (e) {
+	$("#container").addClass("right-panel-active")
+})
+$("#signIn").on('click', function (e) {
+	$("#container").removeClass("right-panel-active")
+})
 
 
-function signUp() {
-	$('.my-loader').css('display','flex');
-	var myForm = document.getElementById('form-cadastro');
-	formData = new FormData(myForm);
-	fetch(`/`, {
-		method: 'POST',
-		body: formData,
-	}).then(response => response.json())
-		.then(jsonBody => {
-			if (jsonBody.status == 'error') {
-				$('.span-message').html(jsonBody.message);
-				$('#h1-criar-conta').hide();
-				$('.message-error').show();
-				$('.my-loader').hide();
-			} else {
-				window.location.href = "/dashboard";
-			}
-		});
-	setTimeout(function () {
-		$('.message-error').hide("slow");
-		$('#h1-criar-conta').show("slow");
-	}, 2500);
-};
-
-function login() {
-	$('.my-loader').css('display','flex');
-	var myForm = document.getElementById('form-login');
-	formData = new FormData(myForm);
+// Login function starts
+$("#btn-login").on('click', function (e) {
+	e.preventDefault()
+	$('.my-loader').css('display', 'flex')
+	formData = new FormData($('#form-login').get(0))
 	fetch(`/login`, {
 		method: 'POST',
 		body: formData,
 	}).then(response => response.json())
 		.then(jsonBody => {
 			if (jsonBody.status == 'error') {
-				$('.span-message').html(jsonBody.message);
-				$('#h1-criar-conta').hide();
-				$('.message-error').show();
-				$('.my-loader').hide();
+				$('.span-message').html(jsonBody.message)
+				$('#h1-criar-conta').hide()
+				$('.message-error').show()
+				$('.my-loader').hide()
 			} else {
-				window.location.href = "/dashboard";
+				window.location.href = "/dashboard"
 			}
-		});
+		})
 	setTimeout(function () {
-		$('.message-error').hide("slow");
-		$('#h1-criar-conta').show("slow");
-	}, 2500);
-};
+		$('.message-error').hide("slow")
+		$('#h1-criar-conta').show("slow")
+	}, 2500)
+})
+// End login function
 
-
+// Sign Up function starts
+$("#cadastrar").on('click', function (e) {
+	e.preventDefault()
+	$('.my-loader').css('display', 'flex')
+	formData = new FormData($('#form-cadastro').get(0))
+	fetch(`/`, {
+		method: 'POST',
+		body: formData,
+	}).then(response => response.json())
+		.then(jsonBody => {
+			if (jsonBody.status == 'error') {
+				$('.span-message').html(jsonBody.message)
+				$('#h1-criar-conta').hide()
+				$('.message-error').show()
+				$('.my-loader').hide()
+			} else {
+				window.location.href = "/dashboard"
+			}
+		})
+	setTimeout(function () {
+		$('.message-error').hide("slow")
+		$('#h1-criar-conta').show("slow")
+	}, 2500)
+})
+	// End Sign Up function
