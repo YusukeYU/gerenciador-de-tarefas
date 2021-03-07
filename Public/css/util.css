@@ -3029,6 +3029,36 @@ ul li:hover {
     border-color: transparent;
 	box-shadow: none;
 }
+.classe-pai{
+	left: 0;
+right: 0;
+top: 0;
+color: #666666;
+bottom: 0;
+position: fixed;
+	width: 100%;
+	background-color: transparent;
+	flex-direction: row;
+justify-content: center;
+align-items: center;
+text-align: center;
+z-index: 1050;
+border: none;
+padding: 20px 510px;
+
+}
+.classe-pai form {
+	background-color: #FFFFFF;
+	border-radius: 10px;
+	padding: 20px;
+}
+.limiter{
+	min-height: 100vh;
+	background-color: #e1e5ee;;
+}
+.container-table100{
+	min-height: 100%;
+}
 
   @media only screen and (max-width: 980px) {
   ul li {
