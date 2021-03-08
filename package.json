@@ -7,6 +7,7 @@
     "bootstrap": "^4.6.0",
     "fontawesome": "^5.6.3",
     "jquery": "^3.5.1",
+    "jquery-datepicker": "^1.12.3",
     "perfect-scrollbar": "^1.5.0",
     "select2": "^4.1.0-rc.0"
   }

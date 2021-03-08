@@ -3059,6 +3059,12 @@ padding: 20px 510px;
 .container-table100{
 	min-height: 100%;
 }
+.form-group input {
+	border: 1px solid #ced4da!important;
+}
+.picker--time .picker__holder {
+    height: 200px;
+}
 
   @media only screen and (max-width: 980px) {
   ul li {
