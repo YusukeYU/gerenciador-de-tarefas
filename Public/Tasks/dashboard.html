@@ -65,19 +65,19 @@
 			<h4 style="margin-bottom: 21px;"> Cadastrar Tarefa</h4>
 			<div class="form-group">
 				<label for="exampleInputPassword1">Data e Horário</label>
-				<input id="dateNewTask" type="date" class="form-control" placeholder="Data">
+				<input name="date" id="dateNewTask" type="date" class="form-control" placeholder="Data">
 				<img id="imgCalendar" src="../../Public/Assets/calendar.png">
-				<input id="timeNewTask" type="time" class="form-control" placeholder="Horário">
+				<input name="time" id="timeNewTask" type="time" class="form-control" placeholder="Horário">
 				<img id="imgClock" src="../../Public/Assets/clock.png">
 			</div>
 			<div class="form-group">
 				<label id="labelTitleTask" for="exampleInputEmail1">Título</label>
-				<input id="inputTitleNewTask" style="    margin-bottom: .5rem;" type="email" class="form-control"
+				<input name="title" id="inputTitleNewTask" style="    margin-bottom: .5rem;" type="email" class="form-control"
 					placeholder="Título">
 			</div>
 			<div class="form-group">
 				<label for="exampleInputEmail1">Descrição</label>
-				<textarea id="desNewTask"></textarea>
+				<textarea name="description" id="desNewTask"></textarea>
 			</div>
 
 			<button onclick="changeElement('tableAllTasks')" id="cancelNewTask" style="margin-right: 16px;" type="button"
