@@ -38,7 +38,7 @@ class TaskController extends Controller
             foreach ($tasks as $task) {
                 $date = new \DateTime($task['date']);
                 $task['date'] = $date->format('d-m-Y H:i:s');
-                $task['date'] = substr($task['date'],0,-9).' às '.substr($task['date'],10,-3);
+                $task['date'] = substr($task['date'], 0, -9) . ' às ' . substr($task['date'], 10, -3);
                 array_push($formated_tasks, $task);
             }
 
@@ -83,5 +83,20 @@ class TaskController extends Controller
             return $this->error($e->getMessage());
         }
         return $this->success("", []);
+    }
+    public function deleteTask(Request $request)
+    {
+        try {
+            $data = $request->only(['id']);
+            $this->_taskRepository->delete($data['id']);
+          
+            if (in_array(null, $data)) {
+                throw new Exception("Necessário informar um id!");
+            }
+
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
+        return $this->success('', [$data['id']]);
     }
 }

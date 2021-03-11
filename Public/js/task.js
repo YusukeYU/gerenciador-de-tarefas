@@ -4,7 +4,9 @@ $("#timeNewTask").pickatime({
 	formatLabel: 'H:i',
 	formatSubmit: 'H:i'
 });
+
 this.getResults()
+
 $('#imgCalendar').on('click', function (e) {
 	e.preventDefault();
 	$("#dateNewTask").trigger('click')
@@ -24,6 +26,13 @@ function changeElement(id) {
 	$('.my-loader').hide();
 }
 
+function clearInputs(){
+	$('#dateNewTask').val('')
+	$('#timeNewTask').val('')
+	$('#inputTitleNewTask').val('')
+	$('#desNewTask').val('')
+}
+
 $("#saveNewTask").on('click', function (e) {
 	e.preventDefault()
 	$('.my-loader').css('display', 'flex')
@@ -35,14 +44,24 @@ $("#saveNewTask").on('click', function (e) {
 	}).then(response => response.json())
 		.then(jsonBody => {
 			if (jsonBody.status == 'error') {
-				alert(jsonBody.message)
+				$('.span-message').html(jsonBody.message)
+				$('.message-error').show()
 				$('.my-loader').hide()
+				$('#saveNewTask').hide()
+				$('#cancelNewTask').hide()
+				setTimeout(function () {
+					$('.message-error').hide("slow")
+					$('#saveNewTask').show("slow")
+				$('#cancelNewTask').show("slow")
+				}, 2000)
 			} else {
-				window.location.href = "/dashboard"
+				$('.my-loader').hide();
+				changeElement('tableAllTasks')
+				getResults()
+				clearInputs()
 			}
 		})
 })
-
 function getResults() {
 	$('.my-loader').css('display', 'flex')
 
@@ -52,30 +71,34 @@ function getResults() {
 		.then(jsonBody => {
 			console.log(jsonBody.data[0])
 			$('.my-loader').hide()
-			var div = $(".table");
+			var div = $(".table"); 	
+			$( ".line-table" ).remove();
 			$.each(jsonBody.data[0], function (idx, elem) {
 				div.append(
-					"<div class ='row'>" + "<div class ='cell' data-title='Protocolo'>" + elem.id +
+					"<div class ='row line-table'>" + "<div class ='cell' data-title='Protocolo'>" + elem.id +
 					"</div> <div class ='cell' data-title='Título'>" + elem.title +
-					"</div> <div class ='cell'>" + elem.date + "</div> </div>");
+					"</div> <div class ='cell'>" + elem.date + "</div>"+ "<div class = cell> <a onClick='deleteTask("+elem.id+")'><img class='img-table' src='../../Public/Assets/trash.png'> </a> </div>" +" </div>");
 			});
 		})
 }
 
-$("#saveNewTask").on('click', function (e) {
-	e.preventDefault()
+
+function deleteTask(id){
 	$('.my-loader').css('display', 'flex')
-	formData = new FormData($('#formNewTask').get(0))
-	fetch(`/task`, {
+	formData = new FormData()
+	//id = toString(id)
+	formData.append('id', id);
+	fetch(`/task/delete`, {
 		method: 'POST',
 		body: formData,
 	}).then(response => response.json())
-		.then(jsonBody => {
-			if (jsonBody.status == 'error') {
-				alert(jsonBody.message)
-				$('.my-loader').hide()
-			} else {
-				window.location.href = "/dashboard"
-			}
-		})
-})
+	.then(jsonBody => {
+		if (jsonBody.status == 'error') {
+			alert(jsonBody.message)
+			$('.my-loader').hide()
+		} else {
+			$('.my-loader').hide()
+			getResults()
+		}
+	})
+}

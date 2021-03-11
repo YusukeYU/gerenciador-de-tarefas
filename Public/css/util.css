@@ -10001,9 +10001,46 @@ body {
 	z-index: 1050;
 	border: none;
 }
+
 .row .cell:nth-child(1) {
-    padding-left: 0;
+	padding-left: 0;
 }
+
+.img-table {
+	height: 23px;
+}
+
+.message-error {
+	background-color: #f8d7da;
+	display: none;
+	font-size: 12px;padding: .8rem 0;
+}
+
+.message-error span {
+	color: #721c24;
+	background-color: #f8d7da;
+	border-color: #f5c6cb;
+	margin-bottom: .5rem;
+}
+
+@media only screen and (max-width: 746px) {
+	.message-error span {
+		padding: 0;
+	}
+	.message-error {
+		padding: .3rem .5rem;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.message-error span {
+		padding: 0;
+	}
+	.message-error {
+		padding: .3rem .5rem;
+	}
+}
+
 @media only screen and (max-width: 980px) {
 	ul li {
 		margin-right: 0!important;
