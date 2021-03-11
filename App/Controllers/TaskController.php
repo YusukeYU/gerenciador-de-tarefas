@@ -6,8 +6,8 @@ use App\Controllers\Controller;
 use App\Infrastructure\Repositories\Task\TaskRepository;
 use App\Infrastructure\Repositories\User\UserRepository;
 use Exception;
-use Src\Request;
 use Src\Auth;
+use Src\Request;
 
 class TaskController extends Controller
 {
@@ -23,19 +23,31 @@ class TaskController extends Controller
 
     public function logout()
     {
-       $this->auth->logout();
-       header("Location: /");
+        $this->auth->logout();
+        header("Location: /");
     }
- 
+
     public function all()
     {
         try {
-            $data = $this->_userRepository->all();
+            $user = $this->_userRepository->findBy('email', $_SESSION['user']['email'], ['id']);
+            $tasks = $this->_taskRepository->findAllByExactly('user_id', $user['id']);
+            $formated_tasks = [];
+
+            //formatando as datas e inserindo no array
+            foreach ($tasks as $task) {
+                $date = new \DateTime($task['date']);
+                $task['date'] = $date->format('d-m-Y H:i:s');
+                $task['date'] = substr($task['date'],0,-9).' às '.substr($task['date'],10,-3);
+                array_push($formated_tasks, $task);
+            }
+
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
-        return $this->success("", [$data]);
+        return $this->success("", [$formated_tasks]);
     }
+
     public function find($id)
     {
         try {
@@ -46,8 +58,6 @@ class TaskController extends Controller
         return $this->success("", [$data]);
     }
 
- 
-  
     public function addTask(Request $request)
     {
         try {
@@ -60,12 +70,12 @@ class TaskController extends Controller
             }
 
             //criamos o usuário
-            $data['date'] = $data['date_submit'].' '.$data['time_submit'];
-            unset($data['time']); 
-            unset($data['date_submit']); 
-            unset($data['time_submit']); 
+            $data['date'] = $data['date_submit'] . ' ' . $data['time_submit'];
+            unset($data['time']);
+            unset($data['date_submit']);
+            unset($data['time_submit']);
             $data['created_at'] = date("Y-m-d H:i:s");
-            $user = $this->_userRepository->findBy('email',$_SESSION['user']['email'],['id']); 
+            $user = $this->_userRepository->findBy('email', $_SESSION['user']['email'], ['id']);
             $data['user_id'] = $user['id'];
             $this->_taskRepository->create($data);
 

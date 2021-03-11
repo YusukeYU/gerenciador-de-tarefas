@@ -101,6 +101,18 @@ abstract class BaseRepository implements IBaseRepository
             return $e->getMessage();
         }
     }
+    public function findAllByExactly($field, $value, $colums = array('*'))
+    {
+        try {
+            $this->__construct();
+            $query = "SELECT " . implode(",", $colums) . " FROM " . $this->model->table . " WHERE " . $field . " = '" . $value . "'";
+            $this->model = Connection::getInstance()->prepare($query);
+            $this->model->execute();
+            return $this->model->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
 
     public function update(array $data)
     {
