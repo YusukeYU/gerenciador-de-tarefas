@@ -105,7 +105,12 @@ abstract class BaseRepository implements IBaseRepository
     {
         try {
             $this->__construct();
-            $query = "SELECT " . implode(",", $colums) . " FROM " . $this->model->table . " WHERE " . $field . " = '" . $value . "'";
+           // if($orderBy != 0){
+          //      $query = "SELECT " . implode(",", $colums) . " FROM " . $this->model->table . " WHERE " . $field . " = '" . $value . " ORDER BY ".$orderBy;
+           // } else{
+                $query = "SELECT " . implode(",", $colums) . " FROM " . $this->model->table . " WHERE " . $field . " = '" . $value . "'";
+          //  }
+       
             $this->model = Connection::getInstance()->prepare($query);
             $this->model->execute();
             return $this->model->fetchAll(PDO::FETCH_ASSOC);
