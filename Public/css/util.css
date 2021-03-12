@@ -10044,10 +10044,13 @@ body {
 		padding: .3rem .5rem;
 	}
 	.dropdown-item {
-		padding: 0 .8rem;
+		padding: .3rem .8rem;
 	}
-	.dropdown-item {
+	.dropdown-menu  {
 		min-width: auto;
+	}
+	.row .cell:nth-child(1) {
+		padding-left: 30px;
 	}
 }
 
