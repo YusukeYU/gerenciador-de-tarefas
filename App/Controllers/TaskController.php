@@ -21,11 +21,6 @@ class TaskController extends Controller
         $this->auth = new Auth();
     }
 
-    public function logout()
-    {
-        $this->auth->logout();
-        header("Location: /");
-    }
 
     public function all()
     {
