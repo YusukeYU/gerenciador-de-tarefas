@@ -26,7 +26,7 @@ class TaskController extends Controller
     {
         try {
             $user = $this->_userRepository->findBy('email', $_SESSION['user']['email'], ['id']);
-            $tasks = $this->_taskRepository->findAllByExactly('user_id', $user['id'],['*'],'DATE ASC');
+            $tasks = $this->_taskRepository->findAllByExactly('user_id', $user['id'],['*'],'date ASC');
             $formated_tasks = [];
  
             //formatando as datas e inserindo no array
