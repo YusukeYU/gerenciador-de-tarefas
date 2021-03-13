@@ -27,7 +27,8 @@ class UserController extends Controller
 
     public function index()
     {
-        echo View::render('index.html');
+        echo $this->auth->isLogged()? View::render('dashboard.html','Tasks'): View::render('index.html');
+
     }
     
     public function dashboard()

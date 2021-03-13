@@ -101,15 +101,15 @@ abstract class BaseRepository implements IBaseRepository
             return $e->getMessage();
         }
     }
-    public function findAllByExactly($field, $value, $colums = array('*'))
+    public function findAllByExactly($field, $value, $colums = array('*'),$orderBy = 0)
     {
         try {
             $this->__construct();
-           // if($orderBy != 0){
-          //      $query = "SELECT " . implode(",", $colums) . " FROM " . $this->model->table . " WHERE " . $field . " = '" . $value . " ORDER BY ".$orderBy;
-           // } else{
+            if($orderBy != 0){
+                $query = "SELECT " . implode(",", $colums) . " FROM " . $this->model->table . " WHERE " . $field . " = '" . $value . "' ORDER BY ".$orderBy;
+            } else{
                 $query = "SELECT " . implode(",", $colums) . " FROM " . $this->model->table . " WHERE " . $field . " = '" . $value . "'";
-          //  }
+            }
        
             $this->model = Connection::getInstance()->prepare($query);
             $this->model->execute();
