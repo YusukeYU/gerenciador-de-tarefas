@@ -8,12 +8,21 @@ $("#timeNewTask").pickatime({
 this.getResults()
 
 $('#imgCalendar').on('click', function (e) {
-	e.preventDefault();
+	e.preventDefault()
 	$("#dateNewTask").trigger('click')
 })
 $('#imgClock').on('click', function (e) {
-	e.preventDefault();
+	e.preventDefault()
 	$("#timeNewTask").trigger('click')
+})
+
+$('#menu-mobile-img').on('click',function(e){
+	e.preventDefault();
+	if($('.navbar').css('display')== 'none'){
+		$('.navbar').show('slow');
+	} else {
+		$('.navbar').hide('slow');
+	}
 })
 function changeElement(id) {
 	$('.my-loader').css('display', 'flex')
