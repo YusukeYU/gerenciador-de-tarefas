@@ -37,7 +37,6 @@ $("#saveNewTask").on('click', function (e) {
 	e.preventDefault()
 	$('.my-loader').css('display', 'flex')
 	formData = new FormData($('#formNewTask').get(0))
-	console.log(formData)
 	fetch(`/task`, {
 		method: 'POST',
 		body: formData,
@@ -69,7 +68,6 @@ function getResults() {
 		method: 'GET',
 	}).then(response => response.json())
 		.then(jsonBody => {
-			console.log(jsonBody.data[0])
 			$('.my-loader').hide()
 			var div = $(".table"); 	
 			$( ".line-table" ).remove();

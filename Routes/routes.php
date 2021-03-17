@@ -18,3 +18,5 @@ Route::get(['set' => '/task', 'as' => 'users.getTask'], 'TaskController@all');
 
 Route::post(['set' => '/task/delete', 'as' => 'users.taskDelete'], 'TaskController@deleteTask');
 
+Route::get(['set' => '/tst', 'as' => 'users.login'], 'UserController@tst');
+
