@@ -87,7 +87,7 @@ function getResults() {
 				div.append(
 					"<div class ='row line-table'>" + "<div class ='cell' data-title='Protocolo'>" + elem.id +
 					"</div> <div class ='cell' data-title='Título'>" + elem.title +
-					"</div> <div class ='cell'>" + elem.date + "</div>"+ "<div class = cell> <a onClick='deleteTask("+elem.id+")'><img class='img-table' src='../../Public/Assets/trash.png'> </a> </div>" +" </div>");
+					"</div> <div data-title='Data/Horário' class ='cell'>" + elem.date + "</div>"+ "<div class = cell> <a onClick='deleteTask("+elem.id+")'><img class='img-table' src='../../Public/Assets/trash.png'> </a> </div>" +" </div>");
 			});
 		})
 }

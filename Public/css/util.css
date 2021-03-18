@@ -10117,6 +10117,9 @@ cursor: pointer;
 }
 
 @media only screen and (max-width: 455px) {
+	.picker__holder{
+		left: -10%;
+	}
 	.row {
 		padding-right: 30px;
 	}
