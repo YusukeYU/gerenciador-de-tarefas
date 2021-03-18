@@ -32,7 +32,7 @@ class TaskController extends Controller
             //formatando as datas e inserindo no array
             foreach ($tasks as $task) {
                 $date = new \DateTime($task['date']);
-                $task['date'] = $date->format('d-m-Y H:i:s');
+                $task['date'] = $date->format('d/m/Y H:i:s');
                 $task['date'] = substr($task['date'], 0, -9) . ' às ' . substr($task['date'], 10, -3);
                 array_push($formated_tasks, $task);
             }
