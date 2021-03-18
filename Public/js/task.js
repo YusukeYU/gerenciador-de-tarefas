@@ -32,6 +32,9 @@ function changeElement(id) {
 		$(item).hide();
 	});
 	$(element).show();
+	if(!($('#menu-mobile-img').css('display') == 'none')){
+		$('#menu-mobile-img').trigger('click');
+	}
 	$('.my-loader').hide();
 }
 
