@@ -7,6 +7,10 @@ $("#timeNewTask").pickatime({
 
 this.getResults()
 
+
+window.onload = function() {
+	console.log()
+  };
 $('#imgCalendar').on('click', function (e) {
 	e.preventDefault()
 	$("#dateNewTask").trigger('click')
@@ -26,16 +30,18 @@ $('#menu-mobile-img').on('click',function(e){
 })
 function changeElement(id) {
 	$('.my-loader').css('display', 'flex')
-	var elements = ['#tableAllTasks', '#receiveFormNewTask'];
-	var element = "#" + id;
+	var elements = ['#tableAllTasks', '#receiveFormNewTask']
+	var element = "#" + id
 	elements.forEach(function (item, indice, array) {
-		$(item).hide();
+		$(item).hide()
 	});
-	$(element).show();
+	$(element).show()
 	if(!($('#menu-mobile-img').css('display') == 'none')){
-		$('#menu-mobile-img').trigger('click');
+		if($(window).width() <= 767){
+			$('#menu-mobile-img').trigger('click')
+		}	
 	}
-	$('.my-loader').hide();
+	$('.my-loader').hide()
 }
 
 function clearInputs(){
