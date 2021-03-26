@@ -6,41 +6,45 @@ use App\Controllers\Controller;
 use App\Infrastructure\Repositories\User\PeopleRepository;
 use App\Infrastructure\Repositories\User\PeopleUserRepository;
 use App\Infrastructure\Repositories\User\UserRepository;
+use App\Infrastructure\Repositories\User\PasswordRecoveryRepository;
 use Exception;
+use Src\Auth;
 use Src\Request;
 use Src\View;
-use Src\Auth;
+use Src\Mailer;
 
 class UserController extends Controller
 {
     private $_userRepository;
     private $_peopleRepository;
     private $_peopleUserRepository;
+    private $_passwordRecoveryRepository;
     private $auth;
     public function __construct()
     {
         $this->_userRepository = new UserRepository();
         $this->_peopleRepository = new PeopleRepository();
         $this->_peopleUserRepository = new PeopleUserRepository();
+        $this->_passwordRecoveryRepository = new PasswordRecoveryRepository();
         $this->auth = new Auth();
     }
 
     public function index()
     {
-        echo $this->auth->isLogged()? View::render('dashboard.html','Tasks'): View::render('index.html');
+        echo $this->auth->isLogged() ? View::render('dashboard.html', 'Tasks') : View::render('index.html');
 
     }
-    
+
     public function dashboard()
     {
-        echo $this->auth->isLogged()? View::render('dashboard.html','Tasks'): header("Location: /");
+        echo $this->auth->isLogged() ? View::render('dashboard.html', 'Tasks') : header("Location: /");
     }
     public function logout()
     {
-       $this->auth->logout();
-       header("Location: /");
+        $this->auth->logout();
+        header("Location: /");
     }
- 
+
     public function all()
     {
         try {
@@ -60,27 +64,27 @@ class UserController extends Controller
         return $this->success("", [$data]);
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
 
-        try{
-             $data = $request->only(['email','password']);
+        try {
+            $data = $request->only(['email', 'password']);
             if (in_array(null, $data)) {
                 throw new Exception("Necessário informar todos os campos!");
             }
 
-             if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
+            if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                 throw new Exception("O formato de e-mail inválido!");
             }
             $user = $this->_userRepository->userLogin($data);
-            $people_user_id = $this->_peopleUserRepository->findBy('user_id',$user['id'],['people_id']);
+            $people_user_id = $this->_peopleUserRepository->findBy('user_id', $user['id'], ['people_id']);
             $people = $this->_peopleRepository->find($people_user_id['people_id']);
-            $this->auth->setLogged($user,$people);
-        }
-        catch (Exception $e) {
+            $this->auth->setLogged($user, $people);
+        } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
 
-        return $this->success("Logado com sucesso!",[]);
+        return $this->success("Logado com sucesso!", []);
     }
 
     public function addUser(Request $request)
@@ -94,11 +98,11 @@ class UserController extends Controller
                 throw new Exception("Necessário informar todos os campos!");
             }
 
-            if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
+            if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                 throw new Exception("O formato de e-mail inválido!");
             }
 
-            if(!strlen($data['document']) == 11){
+            if (!strlen($data['document']) == 11) {
                 throw new Exception("O formato de Cpf inválido!");
             }
             // filtra os dados recebidos e atribui a seus respectivos arrays
@@ -123,10 +127,46 @@ class UserController extends Controller
             $id_user = $this->_userRepository->findByExactly('email', $user['email'], ['id']);
             $id_people = $this->_peopleRepository->findByExactly('document', $people['document'], ['id']);
             $this->_peopleUserRepository->create(['user_id' => $id_user['id'], 'people_id' => $id_people['id']]);
-            $this->auth->setLogged($user,$people);
+            $this->auth->setLogged($user, $people);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
         return $this->success("", []);
+    }
+
+    public function userPasswordRecovery(Request $request)
+    {
+
+        try {
+            $data = $request->only(['email']);
+            // valida se o dado recebido é nulo
+            if (in_array(null, $data)) {
+                throw new Exception("Necessário informar todos os campos!");
+            }
+            // valida se o formato enviado é realmente um e-mail
+            if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                throw new Exception("O formato de e-mail inválido!");
+            }
+            //valida se o e-mail já se encontra cadastrado.
+            if (!$user_finded = $this->_userRepository->findByExactly('email', $data['email'], ['email'])) {
+                throw new Exception("E-mail não cadastrado base dados!");
+            }
+            //cria um token aleátório para esta recuperação
+            $data['token'] = sha1(uniqid(mt_rand(), true));
+            // pega data atual
+            date_default_timezone_set('America/Sao_Paulo');
+            $data['created_at'] = date('y/m/d H:i:s');
+            $link = "http://localhost/recovery.php?email=" . $data['email'] . "&token=" . $data["token"];
+            $mail = new Mailer();
+            if($mail->sendMailResetPassword($data['email'],$link) != 1){
+                throw new Exception("Houve um erro ao enviar o e-mail de recuperação, por favor, contate o administrador.");
+            }
+            $this->_passwordRecoveryRepository->create($data);
+          
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
+
+        return $this->success("Um e-mail com instruções foi encaminhado para você, verifique em sua caixa de entrada ou caixa de spam!", []);
     }
 }
