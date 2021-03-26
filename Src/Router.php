@@ -47,7 +47,8 @@ class Router
         return $this->route_collection->where($request_type, $pattern);
     }
 
-    protected function dispach($route, $params, $namespace = "App\Controllers\\"){
+    protected function dispach($route, $params, $namespace = "App\Controllers\\")
+    {
         return $this->dispacher->dispach($route->callback, $params, $namespace);
     }
 
@@ -58,54 +59,43 @@ class Router
 
     public function resolve($request)
     {
-        //var_dump($request);exit();
         $route = $this->find($request->method(), $request->uri());
         if ($route) {
             $params = $route->callback['values'] ? $this->getValues($request->uri(), $route->callback['values']) : [$request];
             return $this->dispach($route, $params);
         }
         return $this->notFound();
-        
-
     }
     protected function getValues($pattern, $positions)
     {
         $result = [];
-
         $pattern = array_filter(explode('/', $pattern));
-
-        foreach ($pattern as $key => $value) {
-            if (in_array($key, $positions)) {
-                $result[array_search($key, $positions)] = $value;
-            }
+        array_shift($pattern);
+        foreach ($positions as $elements => $value) {
+            $result[$elements] = $pattern[$value - 1];
         }
-
         return $result;
-
     }
     public function translate($name, $params)
-{
-    $pattern = $this->route_collection->isThereAnyHow($name);
-     
-    if($pattern)
     {
-        $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-        $server = $_SERVER['SERVER_NAME'] . '/';
-        $uri = [];
-         
-        foreach(array_filter(explode('/', $_SERVER['REQUEST_URI'])) as $key => $value)
-        {
-            if($value == 'public') {
-                $uri[] = $value;
-                break;
-            }
-            $uri[] = $value;
-        }
-        $uri = implode('/', array_filter($uri)) . '/';
- 
-        return $protocol . $server . $uri . $this->route_collection->convert($pattern, $params);
-    }
-    return false;
-}
+        $pattern = $this->route_collection->isThereAnyHow($name);
 
+        if ($pattern) {
+            $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+            $server = $_SERVER['SERVER_NAME'] . '/';
+            $uri = [];
+
+            foreach (array_filter(explode('/', $_SERVER['REQUEST_URI'])) as $key => $value) {
+                if ($value == 'public') {
+                    $uri[] = $value;
+                    break;
+                }
+                $uri[] = $value;
+            }
+            $uri = implode('/', array_filter($uri)) . '/';
+
+            return $protocol . $server . $uri . $this->route_collection->convert($pattern, $params);
+        }
+        return false;
+    }
 }

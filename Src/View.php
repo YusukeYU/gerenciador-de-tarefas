@@ -11,7 +11,7 @@ class View
      * @param $view = nome do arquivo, $path = pasta que ele se encontra.
      * @author Gustavo Pontes. 
      */
-    public static function render($view, $path = 0)
+    public static function render($view, $path = 0,$data = array())
     {
         try {
             if(!$path ==0){

@@ -32,7 +32,6 @@ class UserController extends Controller
     public function index()
     {
         echo $this->auth->isLogged() ? View::render('dashboard.html', 'Tasks') : View::render('index.html');
-
     }
 
     public function dashboard()
@@ -156,17 +155,33 @@ class UserController extends Controller
             // pega data atual
             date_default_timezone_set('America/Sao_Paulo');
             $data['created_at'] = date('y/m/d H:i:s');
-            $link = "http://localhost/recovery.php?email=" . $data['email'] . "&token=" . $data["token"];
+            // cria token criptografado
+            $link = "http://localhost/recovery/" . $data["token"];
+            // envia o token por email
             $mail = new Mailer();
-            if($mail->sendMailResetPassword($data['email'],$link) != 1){
+            if ($mail->sendMailResetPassword($data['email'], $link) != 1) {
                 throw new Exception("Houve um erro ao enviar o e-mail de recuperação, por favor, contate o administrador.");
             }
+            //salva o token na base de dados
             $this->_passwordRecoveryRepository->create($data);
-          
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
 
         return $this->success("Um e-mail com instruções foi encaminhado para você, verifique em sua caixa de entrada ou caixa de spam!", []);
+    }
+
+    public function recoveryView($token)
+    {
+        //verifica se o token informado existe no banco de dados
+        if (!$request = $this->_passwordRecoveryRepository->findByExactly('token', $token)) {
+            header("Location: /");
+        }
+        // verifica se o token está expirado
+        date_default_timezone_set('America/Sao_Paulo');
+        if (time() - strtotime($request['created_at']) > 10 * 60) {
+            header("Location: /");
+        }
+        View::render('newPassword.php','Mail',['email' => $request['email'],'token' =>$token]);
     }
 }

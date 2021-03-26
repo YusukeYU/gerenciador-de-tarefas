@@ -27,7 +27,6 @@ final class Route
 
     public static function get($pattern, $callback)
     {
-       // exit('estou no get do route.php');
         return self::getRouter()->get($pattern, $callback);
     }
 
@@ -43,7 +42,6 @@ final class Route
 
     public static function resolve($pattern)
     {
-       // exit('estou no resolve do route.php');
         return self::getRouter()->resolve($pattern);
     }
 

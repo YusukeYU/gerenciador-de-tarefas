@@ -13,6 +13,6 @@ Route::post(['set' => '/login', 'as' => 'users.loginPost'], 'UserController@logi
 
 Route::post(['set' => '/password-recovery', 'as' => 'users.recovery'], 'UserController@userPasswordRecovery');
 
-Route::get(['set' => '/password-recovery', 'as' => 'users.recovery'], 'UserController@userPasswordRecovery2');
+Route::get(['set' => '/recovery/{token}', 'as' => 'users.recovery-password'], 'UserController@recoveryView');
 
 ?>
